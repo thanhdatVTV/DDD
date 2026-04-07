@@ -1,0 +1,89 @@
+<Window x:Class="PalletApp.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:PalletApp.Wpf.ViewModels"
+        Title="PalletApp - DDD Demo" Height="600" Width="900"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <TabControl>
+            <!-- 1. Pallet List Screen -->
+            <TabItem Header="Pallet List">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <TextBlock Text="Pallet No:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        <TextBox Width="150" Text="{Binding PalletNoFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Button Content="Search" Margin="10,0,0,0" Width="80" Command="{Binding SearchCommand}"/>
+                    </StackPanel>
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding Pallets}" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Pallet No." Binding="{Binding PalletNo}" Width="*"/>
+                            <DataGridTextColumn Header="Created Date" Binding="{Binding CreatedDate, StringFormat=\{0:dd/MM/yyyy HH:mm\}}" Width="*"/>
+                            <DataGridTextColumn Header="Created By" Binding="{Binding CreatedBy}" Width="*"/>
+                            <DataGridTextColumn Header="Batch Count" Binding="{Binding BatchCount}" Width="*"/>
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <!-- 2. Scan Batch Screen -->
+            <TabItem Header="Scan Batch">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="10">
+                        <TextBlock Text="Select Bin Location:" FontWeight="Bold" Margin="0,0,0,5"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                            <ComboBox Width="200" ItemsSource="{Binding Bins}" SelectedItem="{Binding SelectedBin}" DisplayMemberPath="LocationName"/>
+                            <Button Content="New Pallet" Margin="10,0,0,0" Width="100" Command="{Binding CreatePalletCommand}"/>
+                        </StackPanel>
+                        
+                        <TextBlock Text="Scan Batch ID:" FontWeight="Bold" Margin="0,0,0,5"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Width="200" Text="{Binding BatchIdInput, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Button Content="Add Batch" Margin="10,0,0,0" Width="100" Command="{Binding AddBatchCommand}"/>
+                        </StackPanel>
+                        
+                        <TextBlock Text="Batch Count:" FontWeight="Bold" Margin="0,20,0,5"/>
+                        <TextBlock Text="{Binding BatchCount}" FontSize="24" Foreground="Blue"/>
+                        
+                        <Button Content="Generate Pallet Number &amp; Print" Margin="0,20,0,0" Height="40" 
+                                Command="{Binding GeneratePalletNoCommand}" Background="Green" Foreground="White" FontWeight="Bold"/>
+                    </StackPanel>
+                    
+                    <GroupBox Grid.Column="1" Header="Scanned Batches" Margin="10">
+                        <DataGrid ItemsSource="{Binding ScannedBatches}" AutoGenerateColumns="False" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Seq" Binding="{Binding SequenceNo}" Width="Auto"/>
+                                <DataGridTextColumn Header="Batch ID" Binding="{Binding BatchId}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+
+            <!-- Placeholder for Print screens as requested -->
+            <TabItem Header="Confirm Print">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock Text="Demo Confirm Print for latest Pallet" FontSize="18" Margin="0,0,0,20"/>
+                    <Button Content="Confirm Print A4" Height="40" Width="200" Margin="0,0,0,10"/>
+                    <Button Content="Confirm Print Label" Height="40" Width="200"/>
+                </StackPanel>
+            </TabItem>
+            
+            <TabItem Header="Print Layout Preview">
+                <Border BorderBrush="Gray" BorderThickness="1" Margin="20">
+                    <Grid Background="White">
+                        <TextBlock Text="Pallet Label Simulation Preview" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Foreground="Gray"/>
+                    </Grid>
+                </Border>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

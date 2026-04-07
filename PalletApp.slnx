@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="PalletApp.Application/PalletApp.Application.csproj" />
+  <Project Path="PalletApp.Domain/PalletApp.Domain.csproj" />
+  <Project Path="PalletApp.Infrastructure/PalletApp.Infrastructure.csproj" />
+  <Project Path="PalletApp.Wpf/PalletApp.Wpf.csproj" />
+</Solution>
